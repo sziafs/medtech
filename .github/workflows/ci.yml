@@ -29,7 +29,11 @@ jobs:
 
       - name: Push Changes
         run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "GitHub Actions"
           git push origin HEAD:${GITHUB_HEAD_REF}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
   
       - name: Run Tests
         working-directory: api
