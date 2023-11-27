@@ -16,7 +16,11 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Debug Working Directory
-        run: pwd
+        run: | 
+          pwd
+          git config --global user.name 'Felipe Silveira'
+          git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'
+          git config --list
 
       - name: Pull Changes
         run: git pull origin ${GITHUB_HEAD_REF} --rebase
@@ -25,19 +29,11 @@ jobs:
         working-directory: api
         run: npm install
 
-      - name: Add package-lock.json Changes
-        working-directory: api
-        run: git add .
-
-      - name: Commit Changes
-        run: git commit -m "Update package-lock.json" || echo "No changes to commit"
+      - name: Commit package-lock.json Changes
+        run: git commit -am "Update package-lock.json" || echo "No changes to commit"
 
       - name: Push Changes
-        run: |
-          git config --global user.name 'Felipe Silveira'
-          git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'
-          echo git config --list
-          git push origin HEAD:${GITHUB_HEAD_REF}
+        run: git push origin HEAD:${GITHUB_HEAD_REF}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
   
