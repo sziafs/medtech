@@ -29,8 +29,8 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
-          git pull origin ${GITHUB_HEAD_REF} --rebase
-          git commit -am "Update package-lock.json" || echo "No changes to commit"
+          git stash && git pull origin ${GITHUB_HEAD_REF} --rebase
+          git stash pop && git commit -am "Update package-lock.json" || echo "No changes to commit"
           git push origin HEAD:${GITHUB_HEAD_REF}
 
       - name: Build
