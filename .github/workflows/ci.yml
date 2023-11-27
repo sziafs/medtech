@@ -33,7 +33,7 @@ jobs:
         run: |
           git config --global user.name 'Felipe Silveira'
           git config --global user.email 'sziafs@users.noreply.github.com'
-          git pull origin ${GITHUB_HEAD_REF}
+          git pull origin ${GITHUB_HEAD_REF} --rebase
           git push origin HEAD:${GITHUB_HEAD_REF}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
