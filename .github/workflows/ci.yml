@@ -19,7 +19,7 @@ jobs:
         run: |
           pwd
           git config --global user.email "github-actions@github.com"
-          git config --global user.name "${GITHUB_ACTOR}"
+          git config --global user.name "github-actions[bot]"
 
       - name: Pull Changes
         run: git pull origin ${GITHUB_HEAD_REF} --rebase
