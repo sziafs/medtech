@@ -12,9 +12,13 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+        with:
+          path: backend
 
       - name: Install Dependencies
         run: yarn install
+        working-directory: backend
 
       - name: Run Tests
         run: yarn test
+        working-directory: backend
