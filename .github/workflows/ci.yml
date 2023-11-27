@@ -28,7 +28,8 @@ jobs:
         run: git commit -m "Update package-lock.json" || echo "No changes to commit"
 
       - name: Push Changes
-        run: git push
+        run: |
+          git push origin HEAD:${GITHUB_HEAD_REF}
   
       - name: Run Tests
         working-directory: api
