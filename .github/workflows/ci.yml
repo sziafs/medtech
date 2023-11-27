@@ -18,8 +18,8 @@ jobs:
 
       - name: Install Dependencies
         working-directory: api
-        run: yarn install
+        run: npm install
 
       - name: Run Tests
         working-directory: api
-        run: yarn test
+        run: npm run test
