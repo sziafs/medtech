@@ -14,9 +14,6 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Debug Working Directory
-        run: pwd
-
       - name: Install Dependencies
         working-directory: api
         run: npm install
