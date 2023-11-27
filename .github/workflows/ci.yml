@@ -46,7 +46,7 @@ jobs:
         run: git diff --exit-code || echo "Changes found"
 
       - name: Commit and Push package-lock.json Changes
-        if: check_changes.result == 'Changes found'
+        if: needs.build_and_test.outputs.check_changes.result == 'Changes found'
         run: |
           git commit -am "Update package-lock.json" || echo "No changes to commit"
           git push origin HEAD:${GITHUB_HEAD_REF}
