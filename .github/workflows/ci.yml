@@ -24,6 +24,12 @@ jobs:
         working-directory: api
         run: git add package-lock.json
 
+      - name: Commit Changes
+        run: git commit -m "Update package-lock.json" || echo "No changes to commit"
+
+      - name: Push Changes
+        run: git push
+  
       - name: Run Tests
         working-directory: api
         run: npm run test
