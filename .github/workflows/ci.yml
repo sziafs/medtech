@@ -4,6 +4,8 @@ on:
   pull_request:
     branches:
       - main
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -29,10 +31,9 @@ jobs:
 
       - name: Push Changes
         run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "GitHub Actions"
-          git remote set-url origin https://x-access-token:${GH_TOKEN}@github.com/sziafs/nodejs-solid.git
-          git push origin HEAD:${GITHUB_HEAD_REF}
+          git config --global user.name 'Felipe Silveira'
+          git config --global user.email 'sziafs@users.noreply.github.com'
+          git push
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
   
