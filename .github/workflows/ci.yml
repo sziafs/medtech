@@ -24,7 +24,9 @@ jobs:
 
       - name: Add package-lock.json Changes
         working-directory: api
-        run: git add package-lock.json
+        run: |
+          git pull origin ${GITHUB_HEAD_REF} --rebase
+          git add package-lock.json
 
       - name: Commit Changes
         run: git commit -m "Update package-lock.json" || echo "No changes to commit"
@@ -33,7 +35,6 @@ jobs:
         run: |
           git config --global user.name 'Felipe Silveira'
           git config --global user.email 'sziafs@users.noreply.github.com'
-          git pull origin ${GITHUB_HEAD_REF} --rebase
           git push origin HEAD:${GITHUB_HEAD_REF}
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
