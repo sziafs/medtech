@@ -20,6 +20,10 @@ jobs:
         working-directory: api
         run: npm install
 
+      - name: Add package-lock.json Changes
+        working-directory: api
+        run: git add package-lock.json
+
       - name: Run Tests
         working-directory: api
         run: npm run test
