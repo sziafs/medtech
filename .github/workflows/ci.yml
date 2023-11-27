@@ -23,6 +23,7 @@ jobs:
         run: git diff --exit-code || echo "Changes found"
 
       - name: Commit and Push package-lock.json Changes
+        if: steps.check_changes.outputs.result == 'Changes found'
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
