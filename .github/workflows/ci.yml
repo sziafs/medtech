@@ -22,15 +22,7 @@ jobs:
         id: check_changes
         run: git diff --exit-code || echo "Changes found" || true
 
-      - name: debug
-        run: |
-          echo "${{ steps.check_changes.outputs.result }}" 1
-          echo "${{ steps.check_changes.outputs }}" 2
-          echo "${{ steps.check_changes.outputs.result == 'Changes found' }}" 4
-          echo "${{ steps.check_changes.outputs.result }}" 5
-
       - name: Commit and Push package-lock.json Changes
-        if: "${{ steps.check_changes.outputs.result == 'Changes found' }}"
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
