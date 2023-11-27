@@ -4,16 +4,12 @@ on:
   pull_request:
     branches:
       - main
-
 permissions:
   contents: write
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    outputs:
-      id: check_changes
-      value: ${{ steps.check_changes.outputs.result }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -30,12 +26,17 @@ jobs:
 
       - name: Check for Changes
         id: check_changes
+        run: git diff --exit-code || echo "Changes found"
+
+      - name: Commit and Push package-lock.json Changes
+        if: steps.check_changes.outputs.result == 'Changes found'
         run: |
-          if git diff --quiet; then
-            echo "::set-output name=result::No changes"
-          else
-            echo "::set-output name=result::Changes found"
-          fi
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
+          git commit -am "Update package-lock.json" || echo "No changes to commit"
+          git push origin HEAD:${GITHUB_HEAD_REF}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Build
         working-directory: api
@@ -46,20 +47,3 @@ jobs:
       - name: Run Tests
         working-directory: api
         run: npm run test
-
-  pr-lock-file-update:
-    needs: build
-    runs-on: ubuntu-latest
-    if: needs.build.outputs.check_changes == 'Changes found'
-    steps:
-      - name: Debug Working Directory
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions[bot]"
-
-      - name: Commit and Push package-lock.json Changes
-        run: |
-          git commit -am "Update package-lock.json"
-          git push origin HEAD:${GITHUB_HEAD_REF}
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
