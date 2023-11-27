@@ -17,9 +17,6 @@ jobs:
       - name: Debug Working Directory
         run: pwd
 
-      - name: Pull Changes
-        run: git pull origin ${GITHUB_HEAD_REF} --rebase
-
       - name: Install Dependencies
         working-directory: api
         run: npm install
@@ -32,6 +29,7 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
+          git pull origin ${GITHUB_HEAD_REF} --rebase
           git commit -am "Update package-lock.json" || echo "No changes to commit"
           git push origin HEAD:${GITHUB_HEAD_REF}
 
