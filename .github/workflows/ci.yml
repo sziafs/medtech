@@ -22,6 +22,12 @@ jobs:
         id: check_changes
         run: git diff --exit-code || echo "Changes found"
 
+      - name: debug
+        run: |
+          echo "${{ steps.check_changes.outputs.result }}" 1
+          echo "${{ steps.check_changes.outputs }}" 2
+          echo "${{ steps.check_changes.outputs.result == 'Changes found' }}" 3
+
       - name: Commit and Push package-lock.json Changes
         if: steps.check_changes.outputs.result
         run: |
