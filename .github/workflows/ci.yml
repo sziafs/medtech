@@ -15,10 +15,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Debug Working Directory
-        run: |
-          pwd
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions[bot]"
+        run: pwd
 
       - name: Pull Changes
         run: git pull origin ${GITHUB_HEAD_REF} --rebase
@@ -30,14 +27,6 @@ jobs:
       - name: Check for Changes
         id: check_changes
         run: git diff --exit-code || echo "Changes found"
-
-      - name: Commit and Push package-lock.json Changes
-        if: steps.check_changes.outputs.result == 'Changes found'
-        run: |
-          git commit -am "Update package-lock.json" || echo "No changes to commit"
-          git push origin HEAD:${GITHUB_HEAD_REF}
-        env:
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Build
         working-directory: api
@@ -58,3 +47,10 @@ jobs:
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
+      
+      - name: Commit and Push package-lock.json Changes
+        run: |
+          git commit -am "Update package-lock.json" || echo "No changes to commit"
+          git push origin HEAD:${GITHUB_HEAD_REF}
+        env:
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
