@@ -12,17 +12,17 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
-          path: nodejs-solid/api
+
+      - name: Install service dependencies
+        run: yarn workspaces focus api
 
       - name: Debug Working Directory
         run: pwd
-        working-directory: api
 
       - name: Install Dependencies
-        run: yarn install
         working-directory: api
+        run: yarn install
 
       - name: Run Tests
-        run: yarn test
         working-directory: api
+        run: yarn test
