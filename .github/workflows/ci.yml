@@ -20,7 +20,7 @@ jobs:
 
       - name: Check for Changes
         id: check_changes
-        run: git diff --exit-code || echo "Changes found"
+        run: git diff --exit-code || echo "Changes found" || true
 
       - name: Commit and Push package-lock.json Changes
         run: |
@@ -35,6 +35,10 @@ jobs:
         run: |
           npm run build
           npm run clean
+
+      - name: Lint
+        working-directory: api
+        run: npm run lint
 
       - name: Run Tests
         working-directory: api
