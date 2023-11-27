@@ -36,6 +36,10 @@ jobs:
           npm run build
           npm run clean
 
+      - name: Lint
+        working-directory: api
+        run: npm run lint
+
       - name: Run Tests
         working-directory: api
         run: npm run test
