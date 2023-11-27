@@ -15,6 +15,10 @@ jobs:
         with:
           path: api
 
+      - name: Debug Working Directory
+        run: pwd
+        working-directory: api
+
       - name: Install Dependencies
         run: yarn install
         working-directory: api
