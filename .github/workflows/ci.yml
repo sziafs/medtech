@@ -22,7 +22,7 @@ jobs:
       - name: Check for package.json Changes
         id: check_changes
         run: |
-          if [ -n "$(git diff -- api/package.json)" ] && [ -z "$(git diff -- api/package-lock.json)" ]; then
+          if [ -n "$(git diff --quiet api/package.json)" ] && [ -z "$(git diff --quiet api/package-lock.json)" ]; then
             echo "Changes found in package.json but not in package-lock.json"
             exit 78
           fi
