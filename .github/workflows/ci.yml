@@ -22,7 +22,7 @@ jobs:
           echo "git configured"
           git diff
           echo "diff done"
-          git diff --name-only HEAD | grep 'package\.json'
+          git diff --name-only | grep 'package.json'
           echo "grep done"
 
       - name: Check for changes in package.json
