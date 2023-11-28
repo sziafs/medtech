@@ -15,6 +15,12 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Debug
+        run: |
+          git diff --name-only HEAD
+          git diff --name-only HEAD | grep 'package\.json'
+          git diff
+
       - name: Check for changes in package.json
         id: check_package_json
         run: |
