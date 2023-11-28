@@ -15,6 +15,33 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Check for changes in package.json
+        id: check_package_json
+        run: |
+          if git diff --name-only HEAD | grep 'package\.json'; then
+            echo "Changes detected in package.json"
+            echo "::set-output name=package_changes::true"
+          else
+            echo "No changes in package.json"
+            echo "::set-output name=package_changes::false"
+          fi
+
+      - name: Check for changes in package-lock.json
+        id: check_package_lock_json
+        if: steps.check_package_json.outputs.package_changes == 'true'
+        run: |
+          if git diff --name-only HEAD | grep 'package-lock\.json'; then
+            echo "Changes detected in package-lock.json"
+            echo "::set-output name=package_lock_changes::true"
+          else
+            echo "No changes in package-lock.json"
+            echo "::set-output name=package_lock_changes::false"
+          fi
+
+      - name: Fail if changes detected
+        if: steps.check_package_json.outputs.package_changes == 'true' || steps.check_package_lock_json.outputs.package_lock_changes == 'true'
+        run: exit 1
+
       - name: Install Dependencies
         working-directory: api
         run: npm install
