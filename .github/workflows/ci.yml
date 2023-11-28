@@ -22,6 +22,13 @@ jobs:
         id: check_changes
         run: git diff --exit-code || echo "Changes found" || true
 
+      - name: Check for package.json Changes
+        run: |
+          if [ -n "$(git diff -- api/package.json)" ] && [ -z "$(git diff -- api/package-lock.json)" ]; then
+            echo "Changes found in package.json but not in package-lock.json"
+            exit 78
+          fi
+
       - name: Commit and Push package-lock.json Changes
         run: |
           git config --global user.email "github-actions@github.com"
