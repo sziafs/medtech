@@ -14,14 +14,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        working-directory: api
-        run: npm install
-
       - name: Check for Changes
         run: |
-          git diff api/package.json --exit-code || echo "Changes found"
-          git diff api/package-lock.json --exit-code || echo "Changes found"
+          git diff --exit-code api/package.json || echo "Changes found"
+          git diff --exit-code api/package-lock.json || echo "Changes found"
 
       - name: Check for package.json Changes
         id: check_changes
@@ -31,14 +27,9 @@ jobs:
             exit 78
           fi
 
-      - name: Commit and Push package-lock.json Changes
-        if: steps.check_changes.outcome == 'success'
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions[bot]"
-          git stash && git pull origin ${GITHUB_HEAD_REF} --rebase
-          git stash pop && git commit -am "Update package-lock.json" || echo "No changes to commit"
-          git push origin HEAD:${GITHUB_HEAD_REF}
+      - name: Install Dependencies
+        working-directory: api
+        run: npm install
 
       - name: Build
         working-directory: api
