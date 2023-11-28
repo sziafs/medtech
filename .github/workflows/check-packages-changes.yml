@@ -2,13 +2,8 @@ name: Check Package Changes
 
 on:
   pull_request:
-    paths:
-      - "package.json"
-      - "package-lock.json"
-  push:
-    paths:
-      - "package.json"
-      - "package-lock.json"
+    branches:
+      - main
 
 jobs:
   check-changes:
@@ -21,7 +16,7 @@ jobs:
       - name: Check for changes in package.json
         id: check_package_json
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'package\.json'; then
+          if git diff --name-only HEAD | grep 'package\.json'; then
             echo "Changes detected in package.json"
             echo "::set-output name=package_changes::true"
           else
@@ -33,7 +28,7 @@ jobs:
         id: check_package_lock_json
         if: steps.check_package_json.outputs.package_changes == 'true'
         run: |
-          if git diff --name-only ${{ github.event.before }} ${{ github.sha }} | grep 'package-lock\.json'; then
+          if git diff --name-only HEAD | grep 'package-lock\.json'; then
             echo "Changes detected in package-lock.json"
             echo "::set-output name=package_lock_changes::true"
           else

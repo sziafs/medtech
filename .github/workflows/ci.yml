@@ -10,6 +10,7 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
@@ -18,24 +19,13 @@ jobs:
         working-directory: api
         run: npm install
 
-      - name: Check for Changes
-        id: check_changes
-        run: git diff --exit-code || echo "Changes found" || true
-
-      - name: Check for package.json Changes
-        run: |
-          if [ -n "$(git diff -- api/package.json)" ] && [ -z "$(git diff -- api/package-lock.json)" ]; then
-            echo "Changes found in package.json but not in package-lock.json"
-            exit 78
-          fi
-
-      - name: Commit and Push package-lock.json Changes
-        run: |
-          git config --global user.email "github-actions@github.com"
-          git config --global user.name "github-actions[bot]"
-          git stash && git pull origin ${GITHUB_HEAD_REF} --rebase
-          git stash pop && git commit -am "Update package-lock.json" || echo "No changes to commit"
-          git push origin HEAD:${GITHUB_HEAD_REF}
+      # - name: Commit and Push package-lock.json Changes
+      #   run: |
+      #     git config --global user.email "github-actions@github.com"
+      #     git config --global user.name "github-actions[bot]"
+      #     git stash && git pull origin ${GITHUB_HEAD_REF} --rebase
+      #     git stash pop && git commit -am "Update package-lock.json" || echo "No changes to commit"
+      #     git push origin HEAD:${GITHUB_HEAD_REF}
 
       - name: Build
         working-directory: api
