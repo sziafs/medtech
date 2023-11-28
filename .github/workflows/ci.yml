@@ -15,9 +15,9 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      # - name: Install Dependencies
-      #   working-directory: api
-      #   run: npm install
+      - name: Install Dependencies
+        working-directory: api
+        run: npm install
 
       # - name: Commit and Push package-lock.json Changes
       #   run: |
