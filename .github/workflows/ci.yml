@@ -19,10 +19,12 @@ jobs:
         run: npm install
 
       - name: Check for Changes
-        id: check_changes
-        run: git diff --exit-code || echo "Changes found" || true
+        run: |
+          git diff api/package.json --exit-code || echo "Changes found"
+          git diff api/package-lock.json --exit-code || echo "Changes found"
 
       - name: Check for package.json Changes
+        id: check_changes
         run: |
           if [ -n "$(git diff -- api/package.json)" ] && [ -z "$(git diff -- api/package-lock.json)" ]; then
             echo "Changes found in package.json but not in package-lock.json"
@@ -30,6 +32,7 @@ jobs:
           fi
 
       - name: Commit and Push package-lock.json Changes
+        if: steps.check_changes.outcome == 'success'
         run: |
           git config --global user.email "github-actions@github.com"
           git config --global user.name "github-actions[bot]"
