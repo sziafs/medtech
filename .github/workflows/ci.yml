@@ -19,11 +19,9 @@ jobs:
         run: |
           git diff
           git diff --name-only
-          git diff --name-only HEAD
-          git diff --name-only HEAD | grep 'package\.json'
-          git diff --name-only HEAD | grep 'package-lock\.json'
-          git diff --name-only HEAD | grep 'api/package\.json'
-          git diff --name-only HEAD | grep 'api/package-lock\.json'
+          git diff --name-only api/package.json
+          git diff --name-only api/package-lock.json
+          git diff --name-only api/package-lock.json | grep -q package-lock.json
 
       - name: Check for changes in package.json
         id: check_package_json
