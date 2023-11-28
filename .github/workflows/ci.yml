@@ -17,6 +17,8 @@ jobs:
 
       - name: Debug
         run: |
+          git config --global user.email "github-actions@github.com"
+          git config --global user.name "github-actions[bot]"
           git diff
           git diff --name-only HEAD | grep 'package\.json'
 
