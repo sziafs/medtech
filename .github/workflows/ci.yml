@@ -21,7 +21,6 @@ jobs:
           git diff --name-only
           git diff --name-only api/package.json
           git diff --name-only api/package-lock.json
-          git diff --name-only api/package-lock.json | grep -q package-lock.json
 
       - name: Check for changes in package.json
         id: check_package_json
