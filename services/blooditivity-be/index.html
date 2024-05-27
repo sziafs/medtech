@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blood Donation</title>
+
+    <link rel="stylesheet" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <header>
+        <!--ctrl+k && ctrl + f para formatar-->
+        <img class="logo" src="images/logo.png" alt="Imagem de DOE">
+        <h2>Your donation matters</h2>
+        <p>Help 3 lifes with 1 donation</p>
+        <p>38.000 donations are needed daily</p>
+        <p>Just 1.9% of brazilian population donate blood</p>
+
+        <button>I want to help</button>
+    </header>
+
+    <section class="form hide">
+        <h2>Enter our donors list</h2>
+        <form action="/" method="POST">
+            <input type="text" name="name" placeholder="Full name">
+            <input type="text" name="email" placeholder="Email adress">
+            <input type="text" name="blood" placeholder="Blood type">
+
+            <button>I want to help</button>
+        </form>
+    </section>
+
+    <main>
+        <h2>Latest <span>donors</span></h2>
+        <section class="donors">
+            {% for donor in donors %}
+            <div class="donor">
+                <div class="blood">{{ donor.blood }}</div>
+                <p>{{ donor.name }}</p>
+            </div>
+            {% endfor %}
+        </section>
+    </main>
+
+    <footer>Made with ❤</footer>
+
+    <script src="scripts/script.js"></script>
+</body>
+
+</html>
